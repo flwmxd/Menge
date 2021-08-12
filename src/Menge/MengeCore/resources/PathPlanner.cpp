@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -187,7 +187,9 @@ PortalRoute* PathPlanner::computeRoute(unsigned int startID, unsigned int endID,
     std::stringstream ss;
     ss << "Trying to find a path from " << startID << " to " << endID;
     ss << ".  A* finished without a route!";
-    throw PathPlannerException(ss.str());
+    //throw PathPlannerException(ss.str());
+
+    return nullptr;
   }
 
   // Create the list of nodes through which I must pass

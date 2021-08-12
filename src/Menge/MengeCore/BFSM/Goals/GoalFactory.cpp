@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -55,6 +55,8 @@ GoalFactory::GoalFactory() : ElementFactory<Goal>() {
       _attrSet.addSizeTAttribute("capacity", false /*required*/, std::numeric_limits<size_t>::max()
                                  /*default*/);
   _weightID = _attrSet.addFloatAttribute("weight", false /*required*/, 1.f);
+
+  _elevation = _attrSet.addFloatAttribute("elevation", false /*required*/, 1e5f);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -65,7 +67,7 @@ bool GoalFactory::setFromXML(Goal* goal, TiXmlElement* node, const std::string& 
   goal->setID(_attrSet.getSizeT(_idID));
   goal->setCapacity(_attrSet.getSizeT(_capacityID));
   goal->setWeight(_attrSet.getFloat(_weightID));
-
+  goal->setElevation(_attrSet.getFloat(_elevation));
   return true;
 }
 }  // namespace BFSM

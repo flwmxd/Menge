@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -74,7 +74,7 @@ PortalPath::~PortalPath() {
 
 void PortalPath::setPreferredDirection(const Agents::BaseAgent* agent, float headingCos,
                                        Agents::PrefVelocity& pVel) {
-  const size_t PORTAL_COUNT = _route->getPortalCount();
+  const size_t PORTAL_COUNT = _route == NULL ? 0 : _route->getPortalCount();
   Vector2 dir;
   if (_currPortal >= PORTAL_COUNT) {
     // assume that the path is clear
@@ -151,6 +151,9 @@ unsigned int PortalPath::updateLocation(const Agents::BaseAgent* agent, const Na
   // TODO: If off "approach" vector, recompute crossing
   bool changed = false;
   unsigned int currNodeID = getNode();
+  if (currNodeID == NavMeshLocation::NO_NODE) {
+    return NavMeshLocation::NO_NODE;
+  }
   const NavMeshNode* currNode = &(navMesh->getNode(currNodeID));
   // test current location
   const Vector2& p = agent->_pos;
@@ -278,6 +281,11 @@ unsigned int PortalPath::updateLocation(const Agents::BaseAgent* agent, const Na
           //  If the angle > some threshold, replan.
   }
   */
+
+  if (_route == nullptr) {
+    return currNodeID;
+  }
+
   if (_currPortal < _route->getPortalCount()) {
     return _route->getPortal(_currPortal)->_nodeID;
   } else {
@@ -295,6 +303,9 @@ void PortalPath::updateGoalLocation(const Agents::BaseAgent* agent, unsigned int
 /////////////////////////////////////////////////////////////////////
 
 unsigned int PortalPath::getNode() const {
+  if (_route == nullptr) {
+    return NavMeshLocation::NO_NODE;
+  }
   if (_currPortal == _route->getPortalCount()) {
     return _route->getEndNode();
   } else {
@@ -305,7 +316,7 @@ unsigned int PortalPath::getNode() const {
 /////////////////////////////////////////////////////////////////////
 
 void PortalPath::computeCrossing(const Vector2& startPos, float agentRadius) {
-  const size_t PORTAL_COUNT = _route->getPortalCount();
+  const size_t PORTAL_COUNT = _route == nullptr ? 0 : _route->getPortalCount();
   if (PORTAL_COUNT > 0) {
     assert(_waypoints == 0x0 && "Computing the crossing for a path that already exists");
     _currPortal = 0;

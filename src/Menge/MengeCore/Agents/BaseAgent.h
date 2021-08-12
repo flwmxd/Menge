@@ -157,6 +157,9 @@ class MENGE_API BaseAgent : public ProximityQuery {
    */
   const BaseAgent* getNeighbor(int idx) const { return _nearAgents[idx].agent; }
 
+
+  inline int32_t getNeighborCount() const { return _nearAgents.size(); };
+
   /*!
    @brief      Returns a pointer to the obstacle with given index
 
@@ -201,6 +204,12 @@ class MENGE_API BaseAgent : public ProximityQuery {
    @brief    The preferred speed of the agent
    */
   float _prefSpeed;
+
+
+  /*!       add by prime.
+   @brief   the elevation in the navMesh.
+   */
+  float _elevation;
 
   /*!
    @brief    The current 2D position of the agent

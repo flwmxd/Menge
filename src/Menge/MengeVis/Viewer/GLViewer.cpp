@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -240,10 +240,10 @@ void GLViewer::run() {
         startTimer(SCENE_UPDATE);
         try {
           redraw = _scene->updateScene(_viewTime);
-        } catch (SceneGraph::SystemStopException) {
+        } catch (SceneGraph::SystemStopException e) {
           // When a system sends an exception that things are over
           // pause everything
-          std::cout << "System stopped!\n";
+          std::cout << "System stopped!  " <<e._msg<<"\n";
           _pause = true;
         }
         if (!_update) {

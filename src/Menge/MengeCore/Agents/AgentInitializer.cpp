@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -196,6 +196,7 @@ bool AgentInitializer::setProperties(BaseAgent* agent) {
   agent->_obstacleSet = _obstacleSet;
   agent->_priority = _priority;
   agent->_class = _class;
+
 
   std::vector<BFSM::VelModifier*>::iterator vItr = _velModifiers.begin();
   for (; vItr != _velModifiers.end(); ++vItr) {

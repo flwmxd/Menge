@@ -209,7 +209,7 @@ class MENGE_API NavMeshLocalizer : public Resource {
    @returns  The index of the node associated with this location. If the location is not on a node,
             NavMeshLocation::NO_NODE is returned.
    */
-  unsigned int getNode(const Math::Vector2& p) const;
+  unsigned int getNode(const Math::Vector2& p, float elevation = 1e5f) const;
 
   /*!
    @brief    Returns the NavMeshNode of the given id.

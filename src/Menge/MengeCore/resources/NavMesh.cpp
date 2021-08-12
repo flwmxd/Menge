@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -166,6 +166,10 @@ const NMNodeGroup* NavMesh::getNodeGroup(const std::string& grpName) const {
 //////////////////////////////////////////////////////////////////////////////////////
 
 float NavMesh::getElevation(unsigned int nodeID, const Vector2& p) const {
+  if (nodeID > _nCount) {
+     return 0.f;
+  }
+
   const NavMeshNode& node = _nodes[nodeID];
   return node.getElevation(p);
 }
@@ -425,7 +429,8 @@ std::vector<Agents::ObstacleVertexList> NavMesh::getObstacles() {
         curr = curr->_prevObstacle;
       }
       obs.vertices.push_back(curr->getP0());
-      while (curr->_nextObstacle) {
+      //while (curr->_nextObstacle) {
+      if(curr->_nextObstacle) {
         obs.vertices.push_back(curr->getP0());
       }
       obs.vertices.push_back(curr->getP1());

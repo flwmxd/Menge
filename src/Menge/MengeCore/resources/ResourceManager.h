@@ -65,6 +65,8 @@ class MENGE_API ResourceManager {
    */
   static void cleanup();
 
+  static void forceCleanup();
+
   /*!
    @brief    Remove the given resource
 

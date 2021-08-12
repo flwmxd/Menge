@@ -9,9 +9,10 @@
 #include "MengeCore/BFSM/FSM.h"
 #include "MengeCore/BFSM/State.h"
 #include "MengeCore/Core.h"
+#include "MengeCore/resources/ResourceManager.h"
 #include "MengeCore/PluginEngine/CorePluginEngine.h"
 #include "MengeCore/Runtime/SimulatorDB.h"
-
+#include "MengeCore/Agents/Elevations/Elevation.h"
 /////////////////////////////////////////////////////////////////////
 //          Local Variables
 /////////////////////////////////////////////////////////////////////
@@ -31,6 +32,9 @@ using std::find;
 
 bool InitSimulator(const char* behaveFile, const char* sceneFile, const char* model,
                    const char* pluginPath) {
+
+  Menge::ResourceManager::forceCleanup();
+
   const bool VERBOSE = false;
   if (_simulator != 0x0) delete _simulator;
   Menge::SimulatorDB simDB;
@@ -95,6 +99,21 @@ size_t AgentCount() {
   return _simulator->getNumAgents();
 }
 
+int GetNeighborCount(size_t id) 
+{
+  assert(_simulator != 0x0);
+  BaseAgent* agt = _simulator->getAgent(id);
+  return agt->getNeighborCount();
+}
+
+int GetNeighborId(size_t id, int index) {
+  assert(_simulator != 0x0);
+  BaseAgent* agt = _simulator->getAgent(id);
+  if (agt->getNeighbor(index) != nullptr){
+    return agt->getNeighbor(index)->_id;
+  }
+  return -1;
+}
 /////////////////////////////////////////////////////////////////////
 
 bool GetAgentPosition(size_t i, float* x, float* y, float* z) {
@@ -280,3 +299,6 @@ bool GetObstacleP1(size_t i, float* x1, float* y1, float* z1) {
   return true;
 }
 }  // extern"C"
+
+
+

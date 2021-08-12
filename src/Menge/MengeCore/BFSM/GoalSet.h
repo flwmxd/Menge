@@ -43,7 +43,7 @@ class Goal;
  @brief    A set of goals.  Maps integer identifiers to instances of goals.
  */
 class MENGE_API GoalSet {
- public:
+  public:
   /*!
    @brief    Default constructor.
    */

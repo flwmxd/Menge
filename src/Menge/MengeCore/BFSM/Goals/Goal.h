@@ -119,7 +119,8 @@ class MENGE_API Goal : public Element {
         _id(-1),
         _goalSet(0x0),
         _population(0),
-        _geometry(0x0) {}
+        _geometry(0x0),
+        _elevation(1e5f) {}
   // -1 is the biggest value for size_t
 
  protected:
@@ -299,6 +300,7 @@ class MENGE_API Goal : public Element {
    @param    capacity    The target capacity for this goal.
    */
   inline void setCapacity(size_t capacity) { _capacity = capacity; }
+  inline void setElevation(const float& elevation) { _elevation = elevation; }
 
   /*!
    @brief    Returns this goal's capacity.
@@ -307,6 +309,7 @@ class MENGE_API Goal : public Element {
    */
   inline size_t getCapacity() const { return _capacity; }
 
+  inline float getElevation() const { return _elevation; }
   /*!
    @brief    Sets the id of the goal.
 
@@ -381,6 +384,12 @@ class MENGE_API Goal : public Element {
             goals.
    */
   ReadersWriterLock _lock;
+
+ /*!
+ @brief    The identifier for the "z" size_t attribute.
+ */
+  float _elevation;
+
 };
 
 /*!

@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-16 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-16 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -62,13 +62,13 @@ void NavMeshGenerator::setAgentPosition(size_t i, BaseAgent* agt) {
         "NavMeshGenerator trying to access an agent "
         "outside of the specified population");
   }
-  agt->_pos = addNoise(_positions[i]);
+  agt->_pos =  addNoise(_positions[i]);
   unsigned int node = _localizer->getNode(agt, _groupName);
   if (node == NavMeshLocation::NO_NODE) {
     std::stringstream ss;
     ss << "NavMeshGenerator was unable to put agent " << agt->_id << " at position ";
     ss << agt->_pos << " onto the mesh in group " << _groupName << ".";
-    throw AgentGeneratorFatalException(ss.str());
+    //throw AgentGeneratorFatalException(ss.str());
   }
 }
 
@@ -174,6 +174,17 @@ Vector2 NavMeshGeneratorFactory::parseAgent(TiXmlElement* node) const {
   } else {
     valid = false;
   }
+
+
+  float elevation = 0;
+    
+
+  if (node->Attribute("elevation", &dVal)) {
+    elevation = (float)dVal;
+  } else {
+
+  }
+
   if (!valid) {
     logger << Logger::ERR_MSG << "Agent on line " << node->Row()
            << " didn't define "

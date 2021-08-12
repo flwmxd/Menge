@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -224,8 +224,17 @@ void NavMeshSpatialQuery::agentQuery(ProximityQuery* filter) const {
 void NavMeshSpatialQuery::agentQuery(ProximityQuery* filter, float& rangeSq) const {
   Vector2 pt = filter->getQueryPoint();
   unsigned int currNode = _localizer->getNode(pt);
-  assert(currNode != NavMeshLocation::NO_NODE &&
-         "Can't use NavMesh for spatial query if the point isn't on the mesh");
+
+  if (currNode == NavMeshLocation::NO_NODE) {
+    logger << Logger::ERR_MSG
+           << "Can't use NavMesh for spatial query if the point isn't on the mesh " << __FILE__
+           << " : " << __LINE__ << "\n";
+
+    return;
+  }
+
+
+  
 
   // This does not need any synchronization elements
   //  The writing and the reading happen in two, independent computational
@@ -366,19 +375,22 @@ void NavMeshSpatialQuery::obstacleQuery(ProximityQuery* filter, float rangeSq) c
     size_t currNode = _localizer->getNode(pt);
   }
 
-  assert(currNode != NavMeshLocation::NO_NODE &&
-         "Can't use NavMesh for spatial query if the point isn't on the mesh");
-
-  const NavMeshPtr navMesh = _localizer->getNavMesh();
-  const NavMeshNode& node = navMesh->getNode((unsigned int)currNode);
-  const size_t OBST_COUNT = node.getObstacleCount();
-  for (size_t o = 0; o < OBST_COUNT; ++o) {
-    const NavMeshObstacle* obst = node.getObstacle(o);
-    if (obst->pointOutside(pt)) {
-      float distance = distSqPointLineSegment(obst->getP0(), obst->getP1(), pt);
-      filter->filterObstacle(obst, distance);
+  if (currNode != NavMeshLocation::NO_NODE) {
+    const NavMeshPtr navMesh = _localizer->getNavMesh();
+    const NavMeshNode& node = navMesh->getNode((unsigned int)currNode);
+    const size_t OBST_COUNT = node.getObstacleCount();
+    for (size_t o = 0; o < OBST_COUNT; ++o) {
+      const NavMeshObstacle* obst = node.getObstacle(o);
+      if (obst->pointOutside(pt)) {
+        float distance = distSqPointLineSegment(obst->getP0(), obst->getP1(), pt);
+        filter->filterObstacle(obst, distance);
+      }
     }
+  } else {
+    logger << Logger::ERR_MSG
+           << "Can't use NavMesh for spatial query if the point isn't on the mesh \n";
   }
+
 }
 
 /////////////////////////////////////////////////////////////////////

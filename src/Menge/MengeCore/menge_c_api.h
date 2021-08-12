@@ -94,6 +94,14 @@ MENGE_API size_t StateCount();
  */
 MENGE_API size_t AgentCount();
 
+
+MENGE_API int GetNeighborCount(size_t id);
+
+MENGE_API int GetNeighborId(size_t id, int index);
+
+
+
+
 /*!
  @brief   Reports the 3D position of the indicated agent.
 

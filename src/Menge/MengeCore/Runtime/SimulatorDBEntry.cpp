@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -95,11 +95,12 @@ bool SimulatorDBEntry::finalize(Agents::SimulatorInterface* sim, BFSM::FSM* fsm)
   sim->setBFSM(fsm);
   // older versions of OpenMP require signed for loop counters
   int agtCount = (int)sim->getNumAgents();
+/*
 #pragma omp parallel for
   for (int a = 0; a < agtCount; ++a) {
     Agents::BaseAgent* agt = sim->getAgent(a);
-    fsm->computePrefVelocity(agt);
-  }
+    //fsm->computePrefVelocity(agt);
+  }*/
   try {
     sim->finalize();
   } catch (Menge::MengeException& e) {

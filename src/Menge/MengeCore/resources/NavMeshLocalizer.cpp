@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -185,7 +185,9 @@ unsigned int NavMeshLocalizer::getNode(const Agents::BaseAgent* agent, const std
 
 /////////////////////////////////////////////////////////////////////
 
-unsigned int NavMeshLocalizer::getNode(const Vector2& p) const { return findNodeBlind(p); }
+unsigned int NavMeshLocalizer::getNode(const Vector2& p, float elevation) const {
+  return findNodeBlind(p, elevation);
+}
 
 /////////////////////////////////////////////////////////////////////
 
@@ -296,12 +298,17 @@ unsigned int NavMeshLocalizer::findNodeBlind(const Vector2& p, float tgtElev) co
     const NavMeshNode& node = _navMesh->getNode(n);
     if (node.containsPoint(p)) {
       float hDiff = fabs(node.getElevation(p) - tgtElev);
-      if (hDiff < elevDiff) {
+      if (hDiff <= elevDiff) {
         maxNode = n;
         elevDiff = hDiff;
       }
     }
   }
+
+  if (maxNode == NavMeshLocation::NO_NODE) {
+    int j = 0;
+  }
+
   return maxNode;
 }
 

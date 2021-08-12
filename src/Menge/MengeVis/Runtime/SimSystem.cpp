@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -84,6 +84,8 @@ bool SimSystem::updateScene(float time) {
     updateAgentPosition(static_cast<int>(_sim->getNumAgents()));
     return true;
   }
+
+
   throw SystemStopException();
 }
 

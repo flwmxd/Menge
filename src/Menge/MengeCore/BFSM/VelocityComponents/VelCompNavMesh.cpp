@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -82,22 +82,36 @@ void NavMeshVelComponent::setPrefVelocity(const Agents::BaseAgent* agent, const 
   if (path == 0x0) {
     // Get the route
     Vector2 goalPoint = goal->getCentroid();
-    unsigned int goalNode = _localizer->getNode(goalPoint);
+    float elevation = goal->getElevation();
+    unsigned int goalNode = _localizer->getNode(goalPoint, elevation);
     if (goalNode == NavMeshLocation::NO_NODE) {
       throw VelCompFatalException(
           "Can't compute a path to a goal outside of the "
           "navigation mesh.  Bad NavMeshVelComponent!");
     }
     unsigned int agtNode = _localizer->getNode(agent);
-    PortalRoute* route =
-        _localizer->getPlanner()->getRoute(agtNode, goalNode, agent->_radius * 2.f);
-    // compute the path
-    path = new PortalPath(agent->_pos, goal, route, agent->_radius);
-    // assign it to the localizer
-    _localizer->setPath(agent->_id, path);
+
+    if (agtNode != NavMeshLocation::NO_NODE) {
+      PortalRoute* route =
+          _localizer->getPlanner()->getRoute(agtNode, goalNode, agent->_radius * 2.f);
+     
+      if (route != nullptr) {
+        // compute the path
+        path = new PortalPath(agent->_pos, goal, route, agent->_radius);
+        // assign it to the localizer
+        _localizer->setPath(agent->_id, path);
+      }
+    
+    } else {
+      logger << Logger::ERR_MSG << "Agent " << agent->_id
+             << " could be out of the map. Please check it \n";
+    }
+
   }
-  pVel.setSpeed(agent->_prefSpeed);
-  path->setPreferredDirection(agent, _headingDevCos, pVel);
+  if (path != nullptr) {
+    pVel.setSpeed(agent->_prefSpeed);
+    path->setPreferredDirection(agent, _headingDevCos, pVel);
+  }
 }
 
 /////////////////////////////////////////////////////////////////////

@@ -79,6 +79,14 @@ class MENGE_API GoalFactory : public ElementFactory<Goal> {
    @brief    The identifier for the "weight" size_t attribute.
    */
   size_t _weightID;
+
+
+  /*!
+   @brief    The identifier for the "elevation" size_t attribute.
+   */
+  size_t _elevation;
+
+
 };
 }  // namespace BFSM
 }  // namespace Menge

@@ -3,7 +3,7 @@
 License
 
 Menge
-Copyright © and trademark ™ 2012-14 University of North Carolina at Chapel Hill.
+Copyright ?and trademark ?2012-14 University of North Carolina at Chapel Hill.
 All rights reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
@@ -88,6 +88,23 @@ void ResourceManager::cleanup() {
       ++itr;
     }
   }
+}
+
+void ResourceManager::forceCleanup() {
+ /* ResourceMap::iterator itr = _resources.begin();
+  while (itr != _resources.end()) {
+    Resource* rsrc = itr->second;
+    rsrc->destroy();
+    ResourceMap::iterator next = itr;
+    ++next;
+    _resources.erase(itr);
+    itr = next;
+  }*/
+    //TODO memory problem ..
+
+    _resources.clear();
+
+
 }
 
 /////////////////////////////////////////////////////////////////////
